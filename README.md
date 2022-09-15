@@ -5,5 +5,6 @@
 ![image](https://user-images.githubusercontent.com/75311991/190166044-ce2857da-5abb-4103-854b-9e93a04c7fa0.png)
 ![image](https://user-images.githubusercontent.com/75311991/190166203-260e9cb5-458f-4a91-9610-1333c2db9577.png)
 ## 2022/09/15
-新增空白鍵加速(原速 5格/s 加速 10格/s) → 製作結算畫面 → 顯示最終分數
-![image](https://user-images.githubusercontent.com/75311991/190427707-69c632ff-19cf-4663-9215-e9687b605e52.png)
+增加時間計算 → 新增空白鍵加速(原速 5格/s 加速 10格/s) → 製作結算畫面 → 顯示最終分數 <br>
+![image](https://user-images.githubusercontent.com/75311991/190429532-05fab977-4cf3-41fd-b842-db5cb36ed516.png)
+![image](https://user-images.githubusercontent.com/75311991/190428039-726bbe8a-3428-4fc6-9fc3-47627a00f5dd.png)
