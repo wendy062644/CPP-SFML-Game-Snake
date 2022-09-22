@@ -217,7 +217,7 @@ int main()
 			}
 			else //放開時減速
 			{ 
-				delay = 0.4;
+				delay = 0.3;
 			}
 		}
 		
