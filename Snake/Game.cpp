@@ -5,12 +5,11 @@
 
 using namespace sf;
 using namespace std;
-
 RenderWindow window(VideoMode(450, 750), "Game"); //畫面設定 
 
 int num = 4, dir = 0; //長度及方向 
 
-int score = 0; //分數
+int score = 0, walknum = 0; //分數
 
 struct snake{
 	int x, y;
@@ -41,7 +40,7 @@ void walk()
 			s[0].x -= 1;
 			break;
 	}
-	
+	walknum = 1;
 	if(s[0].x == p.x&&s[0].y == p.y)
 	{
 		num++; score++;
@@ -49,6 +48,70 @@ void walk()
 		s[num-1].y = s[num-2].y;
 		p.x = rand()%15;
 		p.y = rand()%22+3;
+	}
+}
+
+void lobby()
+{
+	bool screen = false;
+	Font font; //字體 
+	font.loadFromFile("font/font.ttf");
+	
+	Text text; //文字設定 
+	text.setFont(font);
+	text.setCharacterSize(50);
+	
+	while(window.isOpen())
+	{
+		Event event;
+		while(window.pollEvent(event))
+		{
+			if(event.type == Event::Closed)
+			{
+				window.close();
+			}
+			if (event.type == sf::Event::MouseMoved) //判斷滑鼠座標 
+			{
+				if(event.mouseMove.y >= 300&&event.mouseMove.y <= 370&&event.mouseMove.x >= 170&&event.mouseMove.x <= 290){
+					if(!screen)screen = true;
+				}
+				else if(screen)screen = false;
+			}
+			if(event.type == Event::MouseButtonPressed) //判斷滑鼠點擊的座標 
+			{
+				if (event.mouseButton.button == Mouse::Left)
+				{
+					if(event.mouseButton.y >= 300&&event.mouseButton.y <= 370&&event.mouseButton.x >= 170&&event.mouseButton.x <= 290)
+					return;
+				}
+			}
+		}
+		window.clear(Color::White);
+		if(!screen){
+			Texture button;
+			button.loadFromFile("image/button.png");
+			Sprite bt(button);
+			bt.setPosition(162, 300);
+			window.draw(bt);
+	
+			text.setColor(Color::Black);
+			text.setPosition(170, 300);
+			text.setString("Play!");
+			window.draw(text);
+		}
+		else{
+			Texture button;
+			button.loadFromFile("image/button2.png");
+			Sprite bt(button);
+			bt.setPosition(162, 300);
+			window.draw(bt);
+	
+			text.setColor(Color::Red);
+			text.setPosition(175, 305);
+			text.setString("Play!");
+			window.draw(text);
+		}
+		window.display();
 	}
 }
 
@@ -91,6 +154,7 @@ void end()
 
 int main()
 {
+	lobby();
 	s[0].y = 3;
 	
 	p.x = rand()%15; //第一個分數隨機生成 
@@ -106,7 +170,7 @@ int main()
 	
 	Clock clock; //時間
 	clock.restart();
-	float timer = 0, delay = 0.2; //控制蛇的移動速度 
+	float timer = 0, delay = 0.5; //控制蛇的移動速度 
 	double times = 0; //紀錄總時間
 	
 	Texture player; //定義物件 
@@ -142,18 +206,18 @@ int main()
 			}
 			if(event.type == Event::KeyPressed)
 			{
-				if(event.key.code == Keyboard::Down){if(dir != 2)dir = 0;}
-				else if(event.key.code == Keyboard::Up){if(dir != 0)dir = 2;}
-				else if(event.key.code == Keyboard::Right){if(dir != 3)dir = 1;}
-				else if(event.key.code == Keyboard::Left){if(dir != 1)dir = 3;}
+				if(event.key.code == Keyboard::Down){if(dir != 2&&walknum == 1)dir = 0; walknum = 0;}
+				else if(event.key.code == Keyboard::Up){if(dir != 0&&walknum == 1)dir = 2; walknum = 0;}
+				else if(event.key.code == Keyboard::Right){if(dir != 3&&walknum == 1)dir = 1; walknum = 0;}
+				else if(event.key.code == Keyboard::Left){if(dir != 1&&walknum == 1)dir = 3; walknum = 0;}
 			}
 			if(Keyboard::isKeyPressed(Keyboard::Space)) //按空白鍵時加速 
 			{
 				delay = 0.1;
 			}
-			else //放開時減速 
+			else //放開時減速
 			{ 
-				delay = 0.2;
+				delay = 0.4;
 			}
 		}
 		
